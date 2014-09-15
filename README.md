@@ -4,7 +4,7 @@ A [Docker](https://www.docker.com/) [image](https://registry.hub.docker.com/u/ws
 
 ## Install
 1. [Install Docker](https://docs.docker.com/installation/#installation)
-1. `$ docker pull wscherphof/oracle-xe-11g-r2`
+1. `$ docker pull wscherphof/oracle-12c`
 
 ## Run
 Create and run a container named orcl:
