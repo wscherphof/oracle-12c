@@ -1,0 +1,39 @@
+#!/bin/bash
+
+cat >> /home/oracle/.bash_profile <<EOF
+ORACLE_BASE=/u01/app/oracle
+export ORACLE_BASE
+
+ORACLE_SID=ORCL
+export ORACLE_SID
+
+ORACLE_HOME=$ORACLE_BASE/product/12.1.0/dbhome_1
+export ORACLE_HOME
+
+PATH=$ORACLE_HOME/bin:$PATH
+export PATH
+EOF
+
+mount -t tmpfs shmfs -o size=4g /dev/shm
+
+date
+echo "Creating database..."
+su -s /bin/bash oracle -c "sqlplus /nolog @$ORACLE_HOME/config/scripts/createdb.sql"
+
+date
+echo "Running catalog.sql..."
+echo "exit" >> $ORACLE_HOME/rdbms/admin/catalog.sql
+su -s /bin/bash oracle -c "sqlplus / as sysdba @?/rdbms/admin/catalog.sql > /tmp/catalog.log"
+
+date
+echo "Running catproc.sql..."
+echo "exit" >> $ORACLE_HOME/rdbms/admin/catproc.sql
+su -s /bin/bash oracle -c "sqlplus / as sysdba @?/rdbms/admin/catproc.sql > /tmp/catproc.log"
+
+date
+echo "Running pupbld.sql..."
+echo "exit" >> $ORACLE_HOME/sqlplus/admin/pupbld.sql
+su -s /bin/bash oracle -c "sqlplus system/manager @?/sqlplus/admin/pupbld.sql > /tmp/pupbld.log"
+
+date
+echo "Create is done; commit the container now"

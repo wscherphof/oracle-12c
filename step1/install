@@ -1,0 +1,2 @@
+cd /tmp/database/
+./runInstaller -ignoreSysPrereqs -ignorePrereq -silent -noconfig -responseFile /tmp/db_install.rsp
