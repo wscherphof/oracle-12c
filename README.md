@@ -122,7 +122,7 @@ There's no ssh deamon or similar configured in the image. If you need a command 
 ## Build
 Should you want to modify & build your own image:
 
-### Step 1
+#### Step 1
 ##### 1. Download `linuxamd64_12102_database_1of2.zip` & `linuxamd64_12102_database_2of2.zip` from [Oracle Tech Net](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html)
 ##### 2. Put the 2 zip files in the `step1` folder
 ##### 3. `cd` to the `step1` folder
@@ -158,7 +158,7 @@ As install user, execute the following script to complete the configuration.
 ##### 8. ` # exit` (the scripts mentioned are executed as part of the step2 build)
 ##### 9. `$ docker commit step1 oracle-12c:installed`
 
-### Step 2
+#### Step 2
 ##### 1. `$ cd ../step2`
 ##### 2. `$ docker build -t oracle-12c:step2 .`
 ##### 3. `$ docker run --privileged -ti --name step2 oracle-12c:step2 /bin/bash`
@@ -209,7 +209,7 @@ Create is done; commit the container now
 ##### 5. ` # exit`
 ##### 6. `$ docker commit step2 oracle-12c:created`
 
-### Step 3
+#### Step 3
 ##### 1. `$ cd ../step3`
 ##### 2. `$ docker build -t oracle-12c .`
 
