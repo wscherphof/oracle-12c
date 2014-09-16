@@ -48,7 +48,7 @@ SQL> |
 ## Monitor
 The container runs a process that starts up the database, and then continues to check each minute if the database is still running, and start it if it's not. To see the output of that process:
 ```
-$ docker logs db
+$ docker logs orcl
 
 LSNRCTL for Linux: Version 12.1.0.2.0 - Production on 16-SEP-2014 11:34:56
 
