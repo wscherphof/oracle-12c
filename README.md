@@ -21,7 +21,7 @@ The `ORCL` database port `1521` is bound to the Docker host through `run -P`. To
 $ docker port orcl 1521
 0.0.0.0:49189
 ```
-So from the host, you can connect with `system/manager@localhost:49189/ORCL`
+So from the host, you can connect with `system/manager@localhost:49189/orcl`
 Though if using [Boot2Docker](https://github.com/boot2docker/boot2docker), you need the actual ip address instead of `localhost`:
 ```
 $ boot2docker ip
@@ -31,7 +31,7 @@ The VM's Host only interface IP address is: 192.168.59.103
 ```
 If you're looking for a databse client, consider [sqlplus](http://www.oracle.com/technetwork/database/features/instant-client/index-100365.html)
 ```
-$ sqlplus system/manager@192.168.59.103:49189/ORCL
+$ sqlplus system/manager@192.168.59.103:49189/orcl
 
 SQL*Plus: Release 11.2.0.4.0 Production on Mon Sep 15 14:40:52 2014
 
@@ -49,9 +49,34 @@ SQL> |
 The container runs a process that starts up the database, and then continues to check each minute if the database is still running, and start it if it's not. To see the output of that process:
 ```
 $ docker logs db
-Fri Sep 12 20:04:48 UTC 2014
 
-SQL*Plus: Release 12.1.0.2.0 Production on Fri Sep 12 20:04:49 2014
+LSNRCTL for Linux: Version 12.1.0.2.0 - Production on 16-SEP-2014 11:34:56
+
+Copyright (c) 1991, 2014, Oracle.  All rights reserved.
+
+Starting /u01/app/oracle/product/12.1.0/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 12.1.0.2.0 - Production
+Log messages written to /u01/app/oracle/diag/tnslsnr/e90ad7cc75a1/listener/alert/log.xml
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=e90ad7cc75a1)(PORT=1521)))
+
+Connecting to (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 12.1.0.2.0 - Production
+Start Date                16-SEP-2014 11:34:56
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Log File         /u01/app/oracle/diag/tnslsnr/e90ad7cc75a1/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=e90ad7cc75a1)(PORT=1521)))
+The listener supports no services
+The command completed successfully
+
+SQL*Plus: Release 12.1.0.2.0 Production on Tue Sep 16 11:34:56 2014
 
 Copyright (c) 1982, 2014, Oracle.  All rights reserved.
 
@@ -60,15 +85,15 @@ ORACLE instance started.
 
 Total System Global Area 1073741824 bytes
 Fixed Size		    2932632 bytes
-Variable Size		  696254568 bytes
-Database Buffers	  369098752 bytes
+Variable Size		  721420392 bytes
+Database Buffers	  343932928 bytes
 Redo Buffers		    5455872 bytes
 Database mounted.
 Database opened.
 Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
 With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
 
-LSNRCTL for Linux: Version 12.1.0.2.0 - Production on 12-SEP-2014 20:05:18
+LSNRCTL for Linux: Version 12.1.0.2.0 - Production on 16-SEP-2014 11:35:24
 
 Copyright (c) 1991, 2014, Oracle.  All rights reserved.
 
@@ -77,14 +102,14 @@ STATUS of the LISTENER
 ------------------------
 Alias                     LISTENER
 Version                   TNSLSNR for Linux: Version 12.1.0.2.0 - Production
-Start Date                12-SEP-2014 20:04:48
-Uptime                    0 days 0 hr. 0 min. 29 sec
+Start Date                16-SEP-2014 11:34:56
+Uptime                    0 days 0 hr. 0 min. 28 sec
 Trace Level               off
 Security                  ON: Local OS Authentication
 SNMP                      OFF
-Listener Log File         /u01/app/oracle/diag/tnslsnr/6568827caac6/listener/alert/log.xml
+Listener Log File         /u01/app/oracle/diag/tnslsnr/e90ad7cc75a1/listener/alert/log.xml
 Listening Endpoints Summary...
-  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=6568827caac6)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=e90ad7cc75a1)(PORT=1521)))
 Services Summary...
 Service "ORCL" has 1 instance(s).
   Instance "ORCL", status READY, has 1 handler(s) for this service...
@@ -92,26 +117,94 @@ The command completed successfully
 ```
 
 ## Enter
-There's no ssh deamon or similar configured in the image. If you need a command prompt inside the container, consider [nsenter](https://github.com/jpetazzo/nsenter) (and mind the Boot2Docker [note](https://github.com/jpetazzo/nsenter#docker-enter-with-boot2docker) there)
+There's no ssh deamon or similar configured in the image. If you need a command prompt inside the container, consider [nsenter](https://github.com/jpetazzo/nsenter) (and mind the [Boot2Docker note](https://github.com/jpetazzo/nsenter#docker-enter-with-boot2docker) there)
 
 ## Build
 Should you want to modify & build your own image:
 
-1. Download & unzip the Oracle install package (2 files) from [Oracle Tech Net](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html); this will get you a `database` folder
-1. Put the `database` folder under the `step1` folder
+1. Download `linuxamd64_12102_database_1of2.zip` & `linuxamd64_12102_database_2of2.zip` from [Oracle Tech Net](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html)
+1. Put the 2 zip files in the `step1` folder
 1. `cd` to the `step1` folder
 1. `$ docker build -t oracle-12c:step1 .`
 1. `$ docker run --privileged -ti --name step1 oracle-12c:step1 /bin/bash`
-1. `-$ . /tmp/shm`
-1. `-$ . /tmp/install` (takes about 5m)
-1. `-$ exit`
-1. `$ docker commit step1 oracle_12c:installed`
+1. ` # /tmp/install/install` (takes about 5m)
+```
+Tue Sep 16 08:48:00 UTC 2014
+Starting Oracle Universal Installer...
+
+Checking Temp space: must be greater than 500 MB.   Actual 40142 MB    Passed
+Checking swap space: must be greater than 150 MB.   Actual 1392 MB    Passed
+Preparing to launch Oracle Universal Installer from /tmp/OraInstall2014-09-16_08-48-01AM. Please wait ...[root@51905aa48207 /]# You can find the log of this install session at:
+ /u01/app/oraInventory/logs/installActions2014-09-16_08-48-01AM.log
+The installation of Oracle Database 12c was successful.
+Please check '/u01/app/oraInventory/logs/silentInstall2014-09-16_08-48-01AM.log' for more details.
+
+As a root user, execute the following script(s):
+	1. /u01/app/oracle/product/12.1.0/dbhome_1/root.sh
+
+
+
+Successfully Setup Software.
+As install user, execute the following script to complete the configuration.
+	1. /u01/app/oracle/product/12.1.0/dbhome_1/cfgtoollogs/configToolAllCommands RESPONSE_FILE=<response_file>
+
+ 	Note:
+	1. This script must be run on the same host from where installer was run. 
+	2. This script needs a small password properties file for configuration assistants that require passwords (refer to install guide documentation).
+
+```
+1. ` <enter>`
+1. ` # exit` (the scripts mentioned are executed as part of the step2 build)
+1. `$ docker commit step1 oracle-12c:installed`
 1. `$ cd ../step2`
 1. `$ docker build -t oracle-12c:step2 .`
 1. `$ docker run --privileged -ti --name step2 oracle-12c:step2 /bin/bash`
-1. `-$ /tmp/create` (takes about 15m)
-1. `-$ exit`
-1. `$ docker commit step2 oracle_12c:created`
+1. ` # /tmp/create` (takes about 15m)
+```
+Tue Sep 16 11:07:30 UTC 2014
+Creating database...
+
+SQL*Plus: Release 12.1.0.2.0 Production on Tue Sep 16 11:07:30 2014
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+Connected to an idle instance.
+
+File created.
+
+ORACLE instance started.
+
+Total System Global Area 1073741824 bytes
+Fixed Size		    2932632 bytes
+Variable Size		  721420392 bytes
+Database Buffers	  343932928 bytes
+Redo Buffers		    5455872 bytes
+
+Database created.
+
+
+Tablespace created.
+
+
+Tablespace created.
+
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+Tue Sep 16 11:07:50 UTC 2014
+Running catalog.sql...
+
+Tue Sep 16 11:08:51 UTC 2014
+Running catproc.sql...
+
+Tue Sep 16 11:19:38 UTC 2014
+Running pupbld.sql...
+
+Tue Sep 16 11:19:38 UTC 2014
+Create is done; commit the container now
+```
+1. ` # exit`
+1. `$ docker commit step2 oracle-12c:created`
 1. `$ cd ../step3`
 1. `$ docker build -t oracle-12c .`
 

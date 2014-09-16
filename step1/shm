@@ -1,1 +1,0 @@
-mount -t tmpfs shmfs -o size=4g /dev/shm
