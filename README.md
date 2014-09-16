@@ -122,12 +122,12 @@ There's no ssh deamon or similar configured in the image. If you need a command 
 ## Build
 Should you want to modify & build your own image:
 
-1. Download `linuxamd64_12102_database_1of2.zip` & `linuxamd64_12102_database_2of2.zip` from [Oracle Tech Net](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html)
-1. Put the 2 zip files in the `step1` folder
-1. `cd` to the `step1` folder
-1. `$ docker build -t oracle-12c:step1 .`
-1. `$ docker run --privileged -ti --name step1 oracle-12c:step1 /bin/bash`
-1. ` # /tmp/install/install` (takes about 5m)
+###### 1. Download `linuxamd64_12102_database_1of2.zip` & `linuxamd64_12102_database_2of2.zip` from [Oracle Tech Net](http://www.oracle.com/technetwork/database/enterprise-edition/downloads/database12c-linux-download-2240591.html)
+###### 2. Put the 2 zip files in the `step1` folder
+###### 3. `cd` to the `step1` folder
+###### 4. `$ docker build -t oracle-12c:step1 .`
+###### 5. `$ docker run --privileged -ti --name step1 oracle-12c:step1 /bin/bash`
+###### 6. ` # /tmp/install/install` (takes about 5m)
 ```
 Tue Sep 16 08:48:00 UTC 2014
 Starting Oracle Universal Installer...
@@ -153,13 +153,13 @@ As install user, execute the following script to complete the configuration.
 	2. This script needs a small password properties file for configuration assistants that require passwords (refer to install guide documentation).
 
 ```
-1. ` <enter>`
-1. ` # exit` (the scripts mentioned are executed as part of the step2 build)
-1. `$ docker commit step1 oracle-12c:installed`
-1. `$ cd ../step2`
-1. `$ docker build -t oracle-12c:step2 .`
-1. `$ docker run --privileged -ti --name step2 oracle-12c:step2 /bin/bash`
-1. ` # /tmp/create` (takes about 15m)
+###### 7. ` <enter>`
+###### 8. ` # exit` (the scripts mentioned are executed as part of the step2 build)
+###### 9. `$ docker commit step1 oracle-12c:installed`
+###### 10. `$ cd ../step2`
+###### 11. `$ docker build -t oracle-12c:step2 .`
+###### 12. `$ docker run --privileged -ti --name step2 oracle-12c:step2 /bin/bash`
+###### 13. ` # /tmp/create` (takes about 15m)
 ```
 Tue Sep 16 11:07:30 UTC 2014
 Creating database...
@@ -203,10 +203,10 @@ Running pupbld.sql...
 Tue Sep 16 11:19:38 UTC 2014
 Create is done; commit the container now
 ```
-1. ` # exit`
-1. `$ docker commit step2 oracle-12c:created`
-1. `$ cd ../step3`
-1. `$ docker build -t oracle-12c .`
+###### 14. ` # exit`
+###### 15. `$ docker commit step2 oracle-12c:created`
+###### 16. `$ cd ../step3`
+###### 17. `$ docker build -t oracle-12c .`
 
 ## License
 [GNU Lesser General Public License (LGPL)](http://www.gnu.org/licenses/lgpl-3.0.txt) for the contents of this GitHub repo; for Oracle's database software, see their [Licensing Information](http://docs.oracle.com/database/121/DBLIC/toc.htm)
