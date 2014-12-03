@@ -5,6 +5,7 @@ A [Docker](https://www.docker.com/) [image](https://registry.hub.docker.com/u/ws
 ## Install
 1. [Install Docker](https://docs.docker.com/installation/#installation)
 1. `$ docker pull wscherphof/oracle-12c`
+2. That worked once, but the image was removed by Docker Support on Oracle's request, so you'll need to [build](https://github.com/wscherphof/oracle-12c#build) it yourself
 
 ## Run
 Create and run a container named orcl:
