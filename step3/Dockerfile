@@ -1,4 +1,4 @@
-FROM wscherphof/oracle-12c:created
+FROM oracle-12c:created
 MAINTAINER Wouter Scherphof <wouter.scherphof@gmail.com>
 
 RUN rm /tmp/create
