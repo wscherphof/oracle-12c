@@ -48,5 +48,9 @@ su -s /bin/bash oracle -c "sqlplus system/manager @?/sqlplus/admin/pupbld-e.sql 
 rm pupbld-e.sql
 echo ""
 
+echo "Finalizing install and shutting down the database..."
+su -s /bin/bash oracle -c "sqlplus / as sysdba @?/config/scripts/conf_finish.sql"
+echo ""
+
 date
 echo "Create is done; commit the container now"
