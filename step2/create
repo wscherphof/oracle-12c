@@ -22,6 +22,12 @@ su -s /bin/bash oracle -c "sqlplus /nolog @?/config/scripts/createdb.sql"
 echo ""
 
 date
+echo "Creating password file..."
+cd $ORACLE_HOME/dbs
+su -s /bin/bash oracle -c "$ORACLE_HOME/bin/orapwd FILE=orapw$ORACLE_SID password=change_on_install"
+echo ""
+
+date
 echo "Running catalog.sql..."
 cd $ORACLE_HOME/rdbms/admin
 cp catalog.sql catalog-e.sql
