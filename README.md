@@ -204,6 +204,9 @@ Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64
 With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
 
 Tue Sep 16 11:07:50 UTC 2014
+Creating password file...
+
+Tue Sep 16 11:07:50 UTC 2014
 Running catalog.sql...
 
 Tue Sep 16 11:08:51 UTC 2014
