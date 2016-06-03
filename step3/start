@@ -1,7 +1,5 @@
 #!/bin/bash
 
-mount -t tmpfs shmfs -o size=4g /dev/shm
-
 while true; do
   status=`ps -ef | grep tns | grep oracle`
   pmon=`ps -ef | egrep pmon_$ORACLE_SID'\>' | grep -v grep`

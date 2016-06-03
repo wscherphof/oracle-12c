@@ -14,8 +14,6 @@ PATH=$ORACLE_HOME/bin:$PATH
 export PATH
 EOF
 
-mount -t tmpfs shmfs -o size=4g /dev/shm
-
 date
 echo "Creating database..."
 su -s /bin/bash oracle -c "sqlplus /nolog @?/config/scripts/createdb.sql"
