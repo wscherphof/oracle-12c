@@ -10,10 +10,9 @@ A [Docker](https://www.docker.com/) [image](https://registry.hub.docker.com/u/ws
 ## Run
 Create and run a container named orcl:
 ```
-$ docker run --privileged -dP --name orcl wscherphof/oracle-12c
+$ docker run --shm-size=4g -dP --name orcl wscherphof/oracle-12c
 989f1b41b1f00c53576ab85e773b60f2458a75c108c12d4ac3d70be4e801b563
 ```
-Yes, alas, this has to run `privileged` in order to gain permission for the `mount` statement in `/tmp/start` that ups the amount of shared memory, which has a hard value of 64M in Docker; see this [GitHub issue](https://github.com/docker/docker/pull/4981)
 
 ## Connect
 The default password for the `sys` user is `change_on_install`, and for `system` it's `manager`
@@ -132,7 +131,7 @@ Should you want to modify & build your own image:
 
 4) `$ docker build -t oracle-12c:step1 step1`
 
-5) `$ docker run --privileged -ti --name step1 oracle-12c:step1 /bin/bash`
+5) `$ docker run --shm-size=4g -ti --name step1 oracle-12c:step1 /bin/bash`
 
 6) ` # /tmp/install/install` (takes about 5m)
 ```
@@ -169,7 +168,7 @@ As install user, execute the following script to complete the configuration.
 #### Step 2
 1) `$ docker build -t oracle-12c:step2 step2`
 
-2) `$ docker run --privileged -ti --name step2 oracle-12c:step2 /bin/bash`
+2) `$ docker run --shm-size=4g -ti --name step2 oracle-12c:step2 /bin/bash`
 
 3) ` # /tmp/create` (takes about 15m)
 ```
